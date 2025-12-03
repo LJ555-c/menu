@@ -339,6 +339,32 @@ nav a
   padding: 0 !important;
 }
 
+.mobile-bis-slider-container{
+  margin-bottom: 50px !important;
+  padding-bottom: 0 !important;
+  flex-wrap: wrap;      /* 줄바꿈 허용 */
+}
+
+/* p 태그 기본 여백 제거 → 가장 중요한 부분 */
+.mobile-bis-slider-container p {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.mobile-bis-image-with-caption {
+  width: 100%;   /* 원하는 크기로 조절 */
+  height: auto;
+  margin-bottom: 15px;
+  border-radius: 8px;
+}
+
+
+.mobile-bis-image-with-caption img {
+    width: 100%;
+    height: auto;
+  }
+
+
+
 .animation-slider-container {
   position: relative;
   transition: transform 0.8s ease-out;
@@ -426,12 +452,46 @@ nav a
 
 .menu-item {
   position: relative;
+  display: flex;  /* 텍스트 크기에 맞게 영역을 줄여줌 */
+  padding: 15px 20px;
+  color: #fff;
+  font-size: 20px;
+  text-decoration: none;
+  vertical-align: middle;
+   white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+}
+
+/* 글자 뒤에서 시작되는 선 */
+.menu-item::after {
+  content: "";
   display: inline-block;
+  margin-left: 10px;       /* 글자와 선 사이 간격 */
+  height: 2px;
+  width: 200px;            /* 선 길이 */
+  background: #000000;
+
+  top: 50%;               /* 텍스트 중앙 높이에 맞춤 */
+  left: 100%;             /* 텍스트 끝에서 시작 */
+  margin-left: 10px;      /* 텍스트와 선 사이 간격 */
+   /* 오른쪽 끝까지 */
+  width: calc(100vw - 100% + 230px); 
+  /* 40px = padding 좌우 (20px + margin-left 등 필요 시 조절) */
+
+  vertical-align: middle;
+
+  transform-origin: left center;
+  transform: scaleX(1); 
+  transition: transform 0.35s ease;
+}
+
+/* hover 시 선이 글자 뒤에서 오른쪽으로 그려짐 */
+.menu-item:hover::after {
+  transform: scaleX(1);
 }
 
 .menu-item a 
 {
-  color: white;
+  color: rgb(0, 0, 0);
   margin: 0 10px;
   text-decoration: none;
   font-weight: bold;
@@ -444,7 +504,7 @@ nav a
   top: 100%;
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(0, 0, 0, 0.95);
   padding: 10px 0;
   min-width: 160px;
   border-radius: 6px;
@@ -528,6 +588,296 @@ nav a
 {
 
 }
+
+@keyframes dropdownFade 
+{
+  from 
+  {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to 
+  {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* 애니메이션 */
+@keyframes slide-horizontal 
+{
+  0% { transform: translateX(-20px); }
+  100% { transform: translateX(20px); }
+}
+
+
+@keyframes slideUp {
+  from 
+  {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to 
+  {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideDownOut 
+{
+  from 
+  {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to 
+  {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
+.recruit-popup.show 
+{
+  animation: slideUp 0.5s ease-out forwards;
+  display: block;
+   color: #573c1e; /*change color of recruit string*/
+}
+
+.recruit-popup.hide 
+{
+  animation: slideDownOut 0.5s ease-in forwards;
+}
+
+ .mobile-menu-btn {
+      position: fixed;
+      top: 16px;
+      left: 16px;
+      z-index: 1001;
+      width: 32px;
+      height: 32px;
+      cursor: pointer;
+    }
+    .mobile-menu-btn span,
+    .mobile-menu-btn span::before,
+    .mobile-menu-btn span::after {
+      display: block;
+      position: absolute;
+      width: 100%;
+      height: 4px;
+      background-color: #333;
+      transition: 0.3s;
+    }
+    .mobile-menu-btn span {
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    .mobile-menu-btn span::before {
+      content: '';
+      top: -10px;
+    }
+    .mobile-menu-btn span::after {
+      content: '';
+      top: 10px;
+    }
+
+    /* overlay 배경 */
+    #overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      z-index: 1000;
+    }
+
+    /* 슬라이드 메뉴 */
+    .mobile-slide-menu 
+    {
+      position: fixed;
+      top: 200px;     /* 햄버거 버튼 아래에서 시작 */
+      left: 15px;    /* 햄버거 버튼과 같은 위치 */
+      width: 450px;
+      height: auto;
+      max-height: 70vh;
+      /*menu gradient only for phones and tap*/
+      background:  white; /* 글씨 색상 */
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+
+      border: 2px solid #ff0000; /* 선명한 흰색 테두리 */
+      
+
+      padding: 20px;
+      border-radius: 10px;
+      transform: scale(0); /* 처음에는 숨김 상태 */
+      transform-origin: top left;
+      opacity: 0;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      z-index: 999;
+      
+    }
+    
+.mobile-slide-sub-menu a 
+{
+    display: block;
+    margin-bottom: 10px;    
+    padding: 20px 0;     /*It's only for moblie mode*/
+    border-radius: 12px;         /* 라운드 처리 */
+    font-weight: bold; /* 또는 700 */
+    text-align: center;
+
+    color: white; /* 글씨 색상 */
+    text-shadow:
+    -1px -1px 0 #000,  
+     1px -1px 0 #000,
+    -1px  1px 0 #000,
+     1px  1px 0 #000; /* 검정 테두리 */
+
+  text-decoration: none;    /* remove underline for font */
+  font-weight: bold;        /* font bold */
+  color: rgb(190, 231, 221);             /* text color (can change colors you want) */
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);  /* shadows looks like outline*/
+  
+}
+  .mobile-slide-menu.open {
+    left: 0;
+  }
+  .mobile-slide-menu .close-btn {
+    display: block;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+    margin-bottom: 24px;
+  }
+  .mobile-slide-menu a {
+    display: block;
+    padding: 8px 0;
+    color: #333;
+    text-decoration: none;
+  }
+  .mobile-slide-menu ul.submenu {
+    list-style: none;
+    padding-left: 16px;
+    margin: 8px 0;
+  }
+  .mobile-slide-menu ul.submenu li a {
+    padding: 6px 0;
+    display: inline-block;
+  transition: transform 0.6s ease;
+  }
+  .submenu li a.rotate {
+  /*  transform: rotateY(180deg); */
+}
+
+    /* 서브메뉴 기본 보임 */
+.submenu {
+  display: block;
+  padding-left: 25px;
+  
+  background: rgba(252, 252, 252, 0.05);
+}
+
+
+/* 열릴 때 */
+
+
+/* 메인 메뉴 스타일 (원하는 대로 변경 가능) */
+.menu-title {
+  display: block;
+  padding: 12px 0;
+  font-weight: bold;
+  text-decoration: none;
+
+  color: #ffffff;
+}
+
+
+
+
+
+
+/* 열릴 때 애니메이션 효과 */
+@keyframes slideDown 
+{
+  from {
+    top: -100%;
+  }
+  to {
+    top: 0;
+  }
+}
+
+/* creating mobile button or not? */
+
+.slider-container 
+{
+  display: none;
+  flex-direction: column;
+  animation: slide-vertical 3s ease-in-out infinite alternate;
+  margin-top: 50px;
+  gap: 5px;
+}
+
+.menu-overlay {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 998;
+}
+
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 250px;
+  height: 100vh;
+  background: white;
+  z-index: 999;
+  padding: 20px;
+}
+.mobile-lisde-menu.open 
+{
+  animation: slideDiagonal 0.5s forwards ease;
+  pointer-events: auto;
+}
+
+
+.next-button {
+display: none;
+}
+
+
+.hidden {
+  display: none;
+}
+
+#overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.5);
+  z-index: 100;
+}
+
+#menu {
+  position: fixed;
+  top: 0; right: 0;
+  width: 250px;
+  height: 100vh;
+  background: white;
+  z-index: 101;
+  /* 메뉴 슬라이드 효과도 추가 가능 */
+}
+
+.slider-container 
+{
+    display: none;
+}
+
 
 @keyframes dropdownFade 
 {
@@ -742,7 +1092,6 @@ nav a
 .mobile-menu-btn 
 {
     display: none;
-   
     position: fixed;
     width: 1px; /* 또는 원하는 크기로 조절 */
     height: 1px;
@@ -768,7 +1117,7 @@ nav a
 }
 
 .mobile-menu {
-  display: none;
+  display: block;
   position: fixed;
   top: 0;
   right: 0;
@@ -808,10 +1157,127 @@ nav a
     display: none;
 }
 
+.mobile-slide-menu {
+  position: fixed;
+  top: 110px;
+  left: 0;
+  width: 100%;
+  height: 0; /* 처음에는 닫혀 있음 */
+  background: rgba(255, 255, 255, 0.9);
+  overflow-y: auto;
+  transition: height 0.4s ease;
+  padding-top: 60px;
+  box-sizing: border-box;
+  z-index: 9999;
+  opacity: 0;
+}
+
+/* 메뉴 열릴 때 */
+.mobile-slide-menu.open {
+  height: 100%;
+  opacity: 1;
+}
+
+/* 닫기 버튼 */
+.mobile-slide-menu .close-btn {
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  font-size: 40px;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* 메뉴 리스트 */
+.mobile-slide-menu a {
+  display: block;
+  color: #000000;
+  text-decoration: none;
+  padding: 15px 25px;
+  font-size: 22px;
+}
+
+/* 서브메뉴 */
+.mobile-slide-menu .submenu {
+  list-style: none;
+  padding-left: 35px;
+}
+
+.mobile-slide-menu .submenu li a {
+
+  font-size: 18px;
+  /*서브 메뉴 폰트 컬러 */  
+  color: #000000;
+  padding: 8px 25px;
+}
+
+
 
 /*@media (max-width: 768px) */
 @media (max-width: 1400px)
 {
+
+  .warmhearted-text 
+  {
+    font-family: 'NanumYeonJiCe';
+    
+    position: relative;
+    z-index: 2;
+    color: #ffffff;
+    font-size: 40pt;
+    font-weight: bold;
+    
+    text-align: center;
+    margin-top: 500px; /* 이미지 margin-top 300px보다 10px 위 */
+    user-select: none;
+
+    text-shadow:
+    -2px -1px 0 #0047ab,
+    2px -1px 0 #0047ab,
+    -2px  1px 0 #0047ab,
+    2px  1px 0 #0047ab;
+    
+  }
+
+
+  .left-img 
+  {
+      left: -200px;
+      animation: move-left 1.5s ease-out forwards;
+  }
+
+  .right-img 
+  {
+    right: -200px;
+    animation: move-right 1.5s ease-out forwards;
+  }
+  @keyframes move-left 
+  {
+    0% 
+    {
+      transform: translateY(-50%) translateX(0);
+      opacity: 0;
+    }
+    100% 
+    {
+      transform: translateY(-50%) translateX(50vw - 50px); /* 왼쪽 원이 중앙으로 */
+      opacity: 1;
+    }
+  }
+
+  @keyframes move-right 
+  {
+    0% 
+    {
+      transform: translateY(-50%) translateX(0);
+      opacity: 0;
+    }
+    100% 
+    {
+      transform: translateY(-50%) translateX(-50vw + 50px); /* 오른쪽 원이 중앙으로 */
+      opacity: 1;
+    }
+  }
 
  .slider-container.top-slider 
  {
@@ -862,6 +1328,15 @@ nav a
 
 
   }
+
+
+   .mobile-bis-image-with-caption 
+  {
+ max-width: 100%;         /* 폭 제한 */
+
+
+  }
+
 
   
  .LAW-image-with-caption 
@@ -917,6 +1392,16 @@ nav a
     display: none;
   }
 
+  .warmheartedSub-text
+  {
+    font-size: 20px;    
+  }
+
+  .warmhearted-text
+  {
+    font-size: 20px;        
+  }
+
 
   .mobile-menu-btn 
   {
@@ -955,13 +1440,86 @@ nav a
     gap: 40px;
     margin-bottom: 100px;
   }
+
+.footer {
+ display: none;
+}
+
+
+  
+.mobile-footer {
+  font-size: 10px;        
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background: #f5f5f5;
+  padding: 20px;
+}
+
+.mobile-footer-inner {
+  width: 90%;
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  align-items: flex-start;
+  gap: 40px;
+}
+
+
+.mobile-footer-info p {
+  margin: 3px 0;
+  line-height: 1.6;
+}
+
+
+.mobile-footer-info {
+  display: flex;
+  gap: 40px; /* 두 열 사이 공간 */
+}
+
+.mobile-footer-col p {
+  margin: 4px 0;
+  line-height: 1.5;
+}
+
+.mobile-footer-row p {
+  margin: 4px 0;
+  line-height: 1.5;
+}
+
+
+.mobile-footer-logo img 
+{
+  width: 100px;
+  vertical-align:top ;
+  align-items: center;
+}
+.mobile-vertical-text-CEO {
+  writing-mode: vertical-rl; /* 세로 쓰기, 오른쪽에서 왼쪽으로 */
+  text-orientation: upright;  /* 글자 방향을 똑바로 */
+  font-size: 10px;
+  font-weight: bold;
+  position: absolute;         /* 위치 조정 가능 */
+  left: 0;                    /* 좌측 정렬 */
+  top: 30%;                   /* 중앙 정렬 */
+  transform: translateY(-53%);
+  margin-left: 10px;   /* 세로글을 오른쪽으로 이동 */
+   white-space: nowrap; /* 줄바꿈 절대 금지 */
+}
+
+
   
 }
 
   /*@media (min-width: 769px) */
   @media (min-width: 1401px) 
   {
-    
+  .next-button 
+  {
+    display: block;
+  }
+
 
     
   .menu-bar a
@@ -979,7 +1537,7 @@ nav a
   .menu-bar a:hover {
   background-color: rgba(200, 224, 255, 0.8); /* 반투명 흰색 */
   color: #000;
-}
+  }
 
   .dropdown-group a 
   {
@@ -991,11 +1549,8 @@ nav a
     text-decoration: none;
     color: #333;
   }
-  
-  .mobile-slide-menu
-  {
-      display: none;      
-  }
+
+
   .image-with-caption 
   {
     display: flex;
@@ -1018,20 +1573,6 @@ nav a
       display: none;
   }
 
-  .mobile-menu-btn 
-  {     
-      position: fixed;
-      top: 20px;
-      left: 20px;
-      font-size: 50px;       /* 크기 키움 */
-      color: white;
-      background-color: rgba(0, 0, 0, 0.5);
-      padding: 14px 20px;    /* 버튼 내부 여백 */
-      border-radius: 8px;
-      z-index: 1000;
-      cursor: pointer;
-      display: none;
-  }
 
   .slider-container 
   {
@@ -1041,7 +1582,7 @@ nav a
     margin-top: 50px;
     gap: 5px;
   }
-}
+  }
   
 .slider-container 
 {
@@ -1082,11 +1623,7 @@ nav a
 }
 
 /* 슬라이드 메뉴가 열릴 때 애니메이션 적용 */
-.mobile-lisde-menu.open 
-{
-  animation: slideDiagonal 0.5s forwards ease;
-  pointer-events: auto;
-}
+
 
 
 
@@ -1482,6 +2019,7 @@ nav a
   color: #000000;
   text-decoration: none;
   right: 200px;
+  
   
 }
 
@@ -1946,6 +2484,15 @@ position: fixed;
   transition: transform 0.3s;
 }
 
+.mobile-bis-image-with-caption img {
+  /*  top: 50vh; 화면 상단에서 40% 아래부터 시작 */
+  width: 100px;
+
+  transition: transform 0.3s;
+}
+
+
+
 
 
 
@@ -1970,7 +2517,8 @@ position: fixed;
 .map-image-with-caption img {
   /*  top: 50vh; 화면 상단에서 40% 아래부터 시작 */
   width: 700px;
-  
+    display: block;      /* inline-block 여백 제거 */
+  margin: 0;           /* 기본 여백 제거 */
 
   transition: transform 0.3s;
 }
@@ -2025,17 +2573,12 @@ position: fixed;
 }
 
 
-.submenu {
-  max-height: 0;           /* 처음엔 높이 0 */
-  overflow: hidden;        /* 내용 안 보이게 */
-  opacity: 0;              /* 투명 */
-  transition: all 0.5s ease; /* 애니메이션 효과 */
-}
 
 /* 서브메뉴 펼침 상태 */
 .submenu.open {
   max-height: 300px;       /* 충분히 큰 값 (내용보다 크면 됨) */
   opacity: 1;
+    
 }
 .main-menu li {
     position: relative; /* 하위 메뉴 위치 기준 */
@@ -2083,6 +2626,35 @@ position: fixed;
 }
 .CEO-right-popup.hide {
   animation: slideDownOut 0.5s ease-in forwards;
+}
+
+
+
+
+
+
+.ceo-mobile-popup 
+{
+  position: fixed;
+  top: 12vh;  /* 화면 상단에서 40% 아래부터 시작 */
+  left: 10px;  
+  width: 96vw; /* 가로 꽉 채우기 */
+ height: 70vh; /* 세로 60% */
+  background: linear-gradient(to bottom,
+    rgb(255, 255, 255),
+    
+    #ffffff);
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+  padding: 5px 5px; /* 좌우 약간 패딩은 유지해도 되고 없애도 됨 */
+  box-sizing: border-box;
+  border-radius: 10px 10px 0 0;
+  border: 2px solid #02ff17; /* 선명한 흰색 테두리 */
+  z-index: 57;
+  display: none;
+  overflow-y: auto;
+  
+
+  /*transform: none;  좌우 가운데 맞춤 해제 */
 }
 
 
@@ -2239,6 +2811,28 @@ position: fixed;
       font-size: 12px;
       font-weight: bold;
     }
+.mobile-bis-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 15px 2%;
+    padding-top: 10%;
+  }
+
+  .mobile-bis-item {
+    width: 48%;            /* 2열 */
+    box-sizing: border-box;
+    text-align: center;
+  }
+
+  .mobile-bis-item img {
+    width: 50%;
+    height: auto;
+    display: block;
+    padding-bottom: 10%;
+  }
+
+
 
 
 
@@ -2253,58 +2847,7 @@ NEXT
 </a>
 
 
-   <!-- 햄버거 버튼 (모바일 전용) -->
 
-
-<!-- 모바일 슬라이드 메뉴 -->
-<div class="mobile-slide-menu" id="mobileSlideMenu">
-  <span class="close-btn" id="mobileCloseBtn">&times;</span>
-  <!--<a href="#">홈</a>-->
-  <a href="#">회사소개(M)</a>
-<ul class="main-menu">
-    <li class="has-submenu">
-        
-        <ul class="submenu">
-            <li><a href="#">사업분야(M)</a></li>
-            <li><a href="#">대표님 인사말(M)</a></li>
-        </ul>
-        <a href="#">회사정보(M)</a>
-        <ul class="submenu">
-            <li><a href="#">사업분야(M)</a></li>
-            <li><a href="#">대표님 인사말(M)</a></li>
-        </ul>
-    </li>
-    <li><a href="#">서비스 소개</a></li>
-         <ul class="submenu">
-        
-      <div class="mobile-slide-sub-menu" id="mobileSlideSubMenu">
-        <li><a href="#">기업고객용(M)</a></li>
-        <li><a href="#">개인고객용(M)</a></li>
-        </div>
-      </ul>
-      
-  <!-- <a href="#">전문 인력관리 시스템</a>-->
-  <!--<a href="#">사회 친화적 활동</a>-->
-  <a href="#" id="recruitMenuMobile"></a>
-</div>
-
-  <!-- 동영상 배경 -->
-  <video class="bg-video" autoplay muted loop playsinline>
-    <!--<source src="https://cdn.pixabay.com/video/2016/08/31/4854-180863259_large.mp4" type="video/mp4">-->
-    <!--<source src="https://cdn.pixabay.com/video/2025/04/29/275722_large.mp4" type="video/mp4">-->
-    <!--<source src="https://videos.pexels.com/video-files/4253333/4253333-uhd_1440_2732_25fps.mp4" type="video/mp4">-->
-    <!--<source src="https://videocdn.cdnpk.net/videos/b880523d-74ea-4c04-985d-fa6356c5e7c8/horizontal/previews/watermarked/large.mp4" type="video/mp4">-->
-    <source src="https://media.istockphoto.com/id/497375361/ko/%EB%B9%84%EB%94%94%EC%98%A4/%EC%8A%88%ED%8D%BC-%EA%B5%AC%EC%8A%AC%EB%88%88%EA%BC%AC%EB%A6%AC-%EB%B0%8F-%EB%94%B8%EC%9D%B4%EB%8B%A4-%EC%8B%A4%ED%96%89-%EC%88%98-%EC%9E%88%EB%8A%94-%EC%9D%BC.mp4?s=mp4-640x640-is&k=20&c=K8vTeedak_NQu7xoDG6zYrvYJmisJV0Om0owM0oKt5M=">
-    <!--<source src="https://media.istockphoto.com/id/1231862488/ko/%EB%B9%84%EB%94%94%EC%98%A4/%ED%8E%B8%EC%95%88%ED%95%A8%EC%9D%84-%EC%A3%BC%EB%8A%94-%EC%BC%80%EC%96%B4%EC%9D%98-%EC%A2%85%EB%A5%98.mp4?s=mp4-640x640-is&k=20&c=_05EIG6joDCVOarpU796Vr3Q-My0y4fzT1gqOkaqRnw=" type="video/mp4">-->
-
-    브라우저가 video 태그를 지원하지 않습니다.
-  </video>
-
-  <!-- 내비게이션 -->
-   <!-- 햄버거 버튼 -->
-<div class="mobile-menu-btn" id="mobileMenuBtn">
-  <img src="https://github.com/LJ555-c/image-hosting/blob/main/image5_transparent.png?raw=true" alt="메뉴" />
-</div>
 
 
 
@@ -2379,46 +2922,46 @@ NEXT
   <!-- 이미지 전면 표시 -->
 <div class="image-with-caption">
   <!-- 상단 이미지 3개 (슬라이드 or 고정) -->
-<div class="animation-slider-container top-slider">
-  <div class="animation-with-caption">
-    <!--<img src="https://img.pikbest.com/photo/20250717/morning-coffee-on-a-rainy-day_11795880.jpg!bwr800" alt="이미지1"> -->
-    <!--<img src="https://raw.githubusercontent.com/LJ555-c/image-hosting/main/image1.png" alt="이미지1">-->
+  <div class="animation-slider-container top-slider">
+    <div class="animation-with-caption">
+      <!--<img src="https://img.pikbest.com/photo/20250717/morning-coffee-on-a-rainy-day_11795880.jpg!bwr800" alt="이미지1"> -->
+      <!--<img src="https://raw.githubusercontent.com/LJ555-c/image-hosting/main/image1.png" alt="이미지1">-->
 
-    <img src="images/colabor.png" alt="이미지1">
-    <div class="caption">
-            <h3>함께 하는 기업</h3>
-      <p>인재 매칭 서비스의 전문성을 바탕으로</p>
-      <p>기업과 인재간의 최적의 연결을 제공합니다.</p>
+      <img src="images/colabor.png" alt="이미지1">
+      <div class="caption">
+              <h3>함께 하는 기업</h3>
+        <p>인재 매칭 서비스의 전문성을 바탕으로</p>
+        <p>기업과 인재간의 최적의 연결을 제공합니다.</p>
+      </div>
+    </div>
+
+    <div class="animation-with-caption">
+      <img src="https://raw.githubusercontent.com/LJ555-c/image-hosting/main/image2.png" alt="이미지2">
+      <div class="caption">
+        <h3>글로벌 기업 기아 오토랜드</h3>
+        <p>화성, 광명, 광주</p>
+        <p>전문 인력 파견</p>
+      </div>
+    </div>
+
+    <div class="animation-with-caption">
+     <img src="images/speciallist.png" alt="이미지3">
+      <div class="caption">
+        <h3>전문가들의 체계적인 관리 시스템</h3>
+        <p>법무 법인, 노무 법인</p>
+        <p>연계 및 근로 감독관 출신 인력 지원</p>
+      </div>
+    </div>
+
+    <div class="animation-with-caption">
+      <img  id ="recruitImage"src="https://raw.githubusercontent.com/LJ555-c/image-hosting/main/image4.png" alt="image4">
+      <div class="caption">
+        <h3>채용문의</h3>
+        <p>전화번호: 010-9999-0000</p>
+        <p>이메일: young0504@warmheart.kr</p>
+      </div>
     </div>
   </div>
-
-  <div class="animation-with-caption">
-    <img src="https://raw.githubusercontent.com/LJ555-c/image-hosting/main/image2.png" alt="이미지2">
-    <div class="caption">
-      <h3>글로벌 기업 기아 오토랜드</h3>
-      <p>화성, 광명, 광주</p>
-      <p>전문 인력 파견</p>
-    </div>
-  </div>
-
-   <div class="animation-with-caption">
-<img src="images/speciallist.png" alt="이미지3">
-    <div class="caption">
-      <h3>전문가들의 체계적인 관리 시스템</h3>
-      <p>법무 법인, 노무 법인</p>
-      <p>연계 및 근로 감독관 출신 인력 지원</p>
-    </div>
-  </div>
-
-   <div class="animation-with-caption">
-    <img  id ="recruitImage"src="https://raw.githubusercontent.com/LJ555-c/image-hosting/main/image4.png" alt="image4">
-    <div class="caption">
-      <h3>채용문의</h3>
-      <p>전화번호: 010-9999-0000</p>
-      <p>이메일: young0504@warmheart.kr</p>
-    </div>
-  </div>
-</div>
 
 
 
@@ -3209,40 +3752,38 @@ NEXT
             <span style="font-size: 40px;color:  rgb(255, 128, 0);">회사위치</span></p><p style="text-align: center;"></p>
             <span style="font-size: 20px; ">평택, 광명, 광주, 울산에 있는 (주)따뜻한 사람들</span></p><p style="text-align: center;"></p>
       
-              <br>
+           
 
-            <div style="font: 12px AppleSDGothicNeo-Regular, dotum, sans-serif; letter-spacing: -1px; width: 140px; height: 562px; color: rgb(51, 51, 51); position: relative;">
-            <div class="map-image-with-caption img">
-              <div style="height: 360px;"><a href="https://map.kakao.com/?urlX=473910.0000000013&amp;urlY=1088448.999999999&amp;itemId=738729529&amp;q=%EB%94%B0%EB%9C%BB%ED%95%9C%EC%82%AC%EB%9E%8C%EB%93%A4&amp;srcid=738729529&amp;map_type=TYPE_MAP&amp;from=roughmap" target="_blank">
-                <img class="map" src="http://t1.daumcdn.net/roughmap/imgmap/60dd4bd2ed5c733a2da0868eaf0361641cc9bbb08a73b0a21db4dcf36e0ab5aa" 
-                width="500" 
-                height="358" 
-                style="border: 1px solid rgb(204, 204, 204);"></a></div>
-                <div style="overflow: hidden; padding: 7px 11px; border: 1px solid rgba(0, 0, 0, 0.1); border-radius: 0px 0px 2px 2px; background-color: rgb(249, 249, 249);">
-                  <a href="https://map.kakao.com" target="_blank" style="float: left;">
-                    <img src="//t1.daumcdn.net/localimg/localimages/07/2018/pc/common/logo_kakaomap.png" 
-                    width="72" 
-                    height="16" alt="카카오맵" style="display:block;width:72px;height:16px">
-                  </a>
-                    <div style="float: right; position: relative; top: 1px; font-size: 11px;">
-                      <a target="_blank" href="https://map.kakao.com/?from=roughmap&amp;srcid=738729529&amp;confirmid=738729529&amp;q=%EB%94%B0%EB%9C%BB%ED%95%9C%EC%82%AC%EB%9E%8C%EB%93%A4&amp;rv=on" 
-                      style="float:left;height:15px;padding-top:1px;line-height:15px;color:#000;text-decoration: none;">로드뷰</a>
-                      <span style="width: 1px;padding: 0;margin: 0 8px 0 9px;height: 11px;vertical-align: top;position: relative;top: 2px;border-left: 1px solid #d0d0d0;float: left;">
-                        
-                      </span>
-                      <a target="_blank" href="https://map.kakao.com/?from=roughmap&amp;eName=%EB%94%B0%EB%9C%BB%ED%95%9C%EC%82%AC%EB%9E%8C%EB%93%A4&amp;eX=473910.0000000013&amp;eY=1088448.999999999" 
-                      style="float:left;height:15px;padding-top:1px;line-height:15px;color:#000;text-decoration: none;">길찾기</a>
-                      <span style="width: 1px;padding: 0;margin: 0 8px 0 9px;height: 11px;vertical-align: top;position: relative;top: 2px;border-left: 1px solid #d0d0d0;float: left;"></span>
-                      <a target="_blank" href="https://map.kakao.com?map_type=TYPE_MAP&amp;from=roughmap&amp;srcid=738729529&amp;itemId=738729529&amp;q=%EB%94%B0%EB%9C%BB%ED%95%9C%EC%82%AC%EB%9E%8C%EB%93%A4&amp;urlX=473910.0000000013&amp;urlY=1088448.999999999" 
-                      style="float:left;height:15px;padding-top:1px;line-height:15px;color:#000;text-decoration: none;">지도 크게 보기</a>
+            <div style="font: 12px AppleSDGothicNeo-Regular, dotum, sans-serif; letter-spacing: -1px; width: auto; height: 400px; color: rgb(51, 51, 51); position: relative;">
+              <div class="map-image-with-caption img">
+                <div style="height: 360px;"><a href="https://map.kakao.com/?urlX=473910.0000000013&amp;urlY=1088448.999999999&amp;itemId=738729529&amp;q=%EB%94%B0%EB%9C%BB%ED%95%9C%EC%82%AC%EB%9E%8C%EB%93%A4&amp;srcid=738729529&amp;map_type=TYPE_MAP&amp;from=roughmap" target="_blank">
+                  <img class="map" src="http://t1.daumcdn.net/roughmap/imgmap/60dd4bd2ed5c733a2da0868eaf0361641cc9bbb08a73b0a21db4dcf36e0ab5aa"    width="300" 
+                  height="358" 
+                  style="border: 1px solid rgb(204, 204, 204);"></a></div>
+                  <div style="overflow: hidden; padding: 7px 11px; border: 1px solid rgba(0, 0, 0, 0.1); border-radius: 0px 0px 2px 2px; background-color: rgb(249, 249, 249);">
+                    <a href="https://map.kakao.com" target="_blank" style="float: left;">
+                      <img src="//t1.daumcdn.net/localimg/localimages/07/2018/pc/common/logo_kakaomap.png" 
+                      width="72" 
+                      height="16" alt="카카오맵" style="display:block;width:72px;height:16px">
+                    </a>
+                      <div style="float: right; position: relative; top: 1px; font-size: 11px;">
+                        <a target="_blank" href="https://map.kakao.com/?from=roughmap&amp;srcid=738729529&amp;confirmid=738729529&amp;q=%EB%94%B0%EB%9C%BB%ED%95%9C%EC%82%AC%EB%9E%8C%EB%93%A4&amp;rv=on" 
+                        style="float:left;height:15px;padding-top:1px;line-height:15px;color:#000;text-decoration: none;">로드뷰</a>
+                        <span style="width: 1px;padding: 0;margin: 0 8px 0 9px;height: 11px;vertical-align: top;position: relative;top: 2px;border-left: 1px solid #d0d0d0;float: left;">
+                          
+                        </span>
+                        <a target="_blank" href="https://map.kakao.com/?from=roughmap&amp;eName=%EB%94%B0%EB%9C%BB%ED%95%9C%EC%82%AC%EB%9E%8C%EB%93%A4&amp;eX=473910.0000000013&amp;eY=1088448.999999999" 
+                        style="float:left;height:15px;padding-top:1px;line-height:15px;color:#000;text-decoration: none;">길찾기</a>
+                        <span style="width: 1px;padding: 0;margin: 0 8px 0 9px;height: 11px;vertical-align: top;position: relative;top: 2px;border-left: 1px solid #d0d0d0;float: left;"></span>
+                        <a target="_blank" href="https://map.kakao.com?map_type=TYPE_MAP&amp;from=roughmap&amp;srcid=738729529&amp;itemId=738729529&amp;q=%EB%94%B0%EB%9C%BB%ED%95%9C%EC%82%AC%EB%9E%8C%EB%93%A4&amp;urlX=473910.0000000013&amp;urlY=1088448.999999999" 
+                        style="float:left;height:15px;padding-top:1px;line-height:15px;color:#000;text-decoration: none;">지도 크게 보기</a>
+                      </div>
                     </div>
+                  </div>
                 </div>
-                  
-               
-               
-                </div>
+                </body>
               </div>
-          </body>
+            </div>
         </html>
       </div>
     </div>
@@ -4359,6 +4900,7 @@ NEXT
     <a href="#">
   </div>
 </div>
+
 <footer class="footer">
   <div class="footer-inner">
 
@@ -4393,6 +4935,775 @@ NEXT
 
 
 
+
+
+<!-- 법률 서비스 팝업 -->
+<div id="lawRightPopupSR" class="law-right-popup">
+<span class="close-btn" id="closemlawpageBtn">&times;</span>
+
+  <div class="content-wrapper">
+    <!-- 세로글 -->
+    <div class="vertical-text-busniess">
+      <a href="#">LAW PART FROM COMPANY</a>
+    </div>
+
+    <div class="message-box">
+      <a href="#">
+      <div class="horizontal-text">
+        </a>
+        <a href="#">
+          <div class="text-table ">
+            <div>
+              <p><strong><span style="font-size: 40px;">전문적이고 효율적인</span></strong></p>
+            </div>
+            <div>
+              <p><strong><span style="font-size: 40px; color: rgb(255, 128, 0);">인재매칭서비스</span></strong></p></span>
+            </div>
+          </div>
+          <div>
+            <p><strong><span style="font-size: 20px;">맞춤형 인재 매칭 서비스로 단체급식 업계의
+            인력난 해소와 경쟁력 강화에 기여합니다.</span></strong></p>
+            <p></p>
+          </div>
+          <br>
+          
+
+          <!-- 이미지 전면 표시 -->
+        <div class="bis-image-with-caption">
+          <!-- 상단 이미지 3개 (슬라이드 or 고정) -->
+          <div class="LAW-slider-container top-slider">
+            <div class="LAW-image-with-caption">
+              
+              <img src="images/LAW/LAW1.png" alt="이미지1">
+              <br>
+              <br>
+                <p><span style="color: #FF8000;font-size: 20px;">노동법 및 고용 관련 법규&nbsp;</span></p>
+
+                <span style="color: #FF8000;">01&nbsp;</span>근로기준법 준수
+           
+                <p><span style="color: #FF8000;">02&nbsp;</span>근로시간 관리
+               
+                <p><span style="color: #FF8000;">03&nbsp;</span>4대 보험 가입 확인
+              
+              
+            </div>
+
+            <div class="LAW-image-with-caption">
+           <img src="images/LAW/LAW2.png" alt="이미지1">
+           <br>
+           <br>
+           <br>
+         
+              
+                <p><span style="color: #FF8000;font-size: 20px;">개인정보 보호 정책&nbsp;</span></p>
+
+                <span style="color: #FF8000;">01&nbsp;</span>개인정보보호법 준수
+           
+                <p><span style="color: #FF8000;">02&nbsp;</span>데이터 암호화
+               
+                <p><span style="color: #FF8000;">03&nbsp;</span>접근 권한 관리
+             
+            </div>
+
+            <div class="LAW-image-with-caption">
+                <img src="images/LAW/LAW3.png" alt="이미지1">
+                 <br>
+           <br>
+           <br>
+      
+             
+                <p><span style="color: #FF8000;font-size: 20px;">윤리적 채용&nbsp;</span></p>
+
+                <span style="color: #FF8000;">01&nbsp;</span>차별 금지
+           
+                <p><span style="color: #FF8000;">02&nbsp;</span>공정한 평가 </p>
+               
+                <p><span style="color: #FF8000;">03&nbsp;</span>다양성 존중 </p>
+
+                <p><span style="color: #FF8000;">03&nbsp;</span>투명한 절차 </p>
+             
+            </div>
+
+            <div class="LAW-image-with-caption">
+               <img src="images/LAW/LAW4.png" alt="이미지1">
+              
+
+                <p><span style="color: #FF8000;font-size: 20px;">평등한 기회&nbsp;</span></p>
+
+                <span style="color: #FF8000;">01&nbsp;</span>성별 균형
+           
+                <p><span style="color: #FF8000;">02&nbsp;</span>장애인 채용 </p>
+               
+                <p><span style="color: #FF8000;">03&nbsp;</span>다양성 존중 </p>
+
+                <p><span style="color: #FF8000;">03&nbsp;</span>투명한 절차 </p>
+
+
+             
+            </div>
+            <div class="LAW-image-with-caption">
+               <img src="images/LAW/LAW5.png" alt="이미지1">
+                <br>
+           <br>
+           <br>
+          <br>
+           <br>
+    
+             
+                <p><span style="color: #FF8000;font-size: 20px;">투명성 유지&nbsp;</span></p>
+
+                <span style="color: #FF8000;">01&nbsp;</span>채용 과정 공개
+           
+                <p><span style="color: #FF8000;">02&nbsp;</span>결과 피드백 제공 </p>
+               
+                <p><span style="color: #FF8000;">03&nbsp;</span>이의제기 절차 </p>
+
+                <p><span style="color: #FF8000;">03&nbsp;</span>정보 접근성 </p>
+             
+            </div>
+          </div>
+
+
+          
+
+          <div style="display:flex; margin-top:0; padding-top:0;">
+            <div style="flex:1; background:transparent; margin-top:0; padding-top:0;">
+                <div class="text-table">
+                  <p>
+                    <strong>
+                      <span style="font-size: 18px ;color: #FF8000;font-size: 18px;">법무법인 태민&nbsp;</span>
+                    </span></strong>
+                  </p>
+                   <div class="bis-image-with-caption">
+               <img src="images/LAW/LAW7.JPG" alt="이미지1">
+              <div class="bis-image-with-caption">
+                <p>대표 변호사 </p>
+                <p>전지민</p>
+              </div>
+            </div>
+                  <div class="line_box holder" style="width:20%; margin-left: 0;"><!-- HR Line -->
+                    <hr style="border-top-width:2px; border-color:rgba(0, 0, 0, 0.05);" />
+                  </div>
+                  <div class="text-table">
+                    <p>
+                      <strong><span style="font-size: 18px;">
+                        <span style="color: #FF8000;">*&nbsp;</span>이화여자대학교 졸업</span>
+                        </span></strong>
+                      <span style="font-size: 18px;"></span>
+                    </p>
+                  </div>
+                  <div class="line_box holder" style="width:20%; margin-left: 0;"><!-- HR Line -->
+                    <hr style="border-top-width:2px; border-color:rgba(0, 0, 0, 0.05);" />
+                  </div>
+                <div class="text-table">
+                  <p>
+                    <strong><span style="font-size: 18px;">
+                   <span style="color: #FF8000;">*&nbsp;</span>사법시험 제49기</span>
+                      </span></strong>
+                  
+                  </p>
+                </div>
+
+
+                <div class="line_box holder" style="width:20%; margin-left: 0;"><!-- HR Line -->
+                  <hr style="border-top-width:2px; border-color:rgba(0, 0, 0, 0.05);" />
+                </div>
+
+                <div class="text-table">
+                  <p>
+                    <strong><span style="font-size: 18px;">
+                     <span style="color: #FF8000;">*&nbsp;</span>사법연수원 제39기</span>
+                      </span></strong>
+                    
+                  </p>
+                </div>
+                <div class="line_box holder" style="width:40%; margin-left: 0;"><!-- HR Line -->
+                    <hr style="border-top-width:2px; border-color:#FF8000;" />
+                  </div>
+                
+               <!--  <div class="line_box holder" style="width:20%; margin-left: 0;">HR Line 
+                  <hr style="border-top-width:2px; border-color:rgba(0, 0, 0, 0.05);" />
+                </div>-->
+
+                <div class="text-table">
+                  <p>
+                    <strong><span style="font-size: 18px;">
+                      <span style="color: #FF8000;">&nbsp;</span>법무법인 태민 대표변호사<span style="color: #FF8000;"></span>
+                      </span></strong>
+                  </p>
+
+                  <br>
+                  <br>
+                  <br>
+                  <p>•경기도 행정심판위원</p>
+                  <p>•한국콘텐츠진흥원 분쟁조정위원</p>
+                  <p>•한국여성변호사회 사업이사</p>
+                  <p>•서초구청 정보공개심의위원</p>
+                  <p>•언론중재위원</p>
+                  <p>•대한변호사협회 특별보좌관</p>
+                  <p>•국토교통부 교통사고 분쟁조정위원회 위원</p>
+                  <p>•국토교통부 채권정리위원회위원</p>
+                  <p>•SBS 공익방송 자문변호사</p>
+                  <p>•과천소방서 소방공무원 고충심사위원회 위원</p>
+                  
+                </div>
+              </div>
+          </div>
+            
+          <div style="flex:1; background:transparent; margin-top:0; padding-top:0;">
+           <div class="text-table">
+                  <p>
+                    <strong>
+                      <span style="font-size: 18px ;color: #FF8000;font-size: 18px;">법인 없음&nbsp;</span>
+                    </span></strong>
+                  </p>
+                   <div class="bis-image-with-caption">
+               <img src="images/LAW/LAW8.png" alt="이미지1">
+              <div class="bis-image-with-caption">
+                <p>공인노무사 </p>
+                <p>정재권</p>
+              </div>
+            </div>
+                  <div class="line_box holder" style="width:20%; margin-left: 0;"><!-- HR Line -->
+                    <hr style="border-top-width:2px; border-color:rgba(0, 0, 0, 0.05);" />
+                  </div>
+                  <div class="text-table">
+                    <p>
+                      <strong><span style="font-size: 18px;">
+                        <span style="color: #FF8000;">*&nbsp;</span>중앙대학교 법학과</span>
+                        </span></strong>
+                      <span style="font-size: 18px;"></span>
+                    </p>
+                  </div>
+                  <div class="line_box holder" style="width:20%; margin-left: 0;"><!-- HR Line -->
+                    <hr style="border-top-width:2px; border-color:rgba(0, 0, 0, 0.05);" />
+                  </div>
+                <div class="text-table">
+                  <p>
+                    <strong><span style="font-size: 18px;">
+                   <span style="color: #FF8000;">*&nbsp;</span>중앙대학교 대학원</span>
+                      </span></strong>
+                  
+                  </p>
+                </div>
+
+
+                <div class="line_box holder" style="width:20%; margin-left: 0;"><!-- HR Line -->
+                  <hr style="border-top-width:2px; border-color:rgba(0, 0, 0, 0.05);" />
+                </div>
+
+                <div class="text-table">
+                  <p>
+                    <strong><span style="font-size: 18px;">
+                     <span style="color: #FF8000;">*&nbsp;</span>법학과 석사</span>
+                      </span></strong>
+                    
+                  </p>
+                </div>
+                 <div class="line_box holder" style="width:40%; margin-left: 0;"><!-- HR Line -->
+                    <hr style="border-top-width:2px; border-color:#FF8000;" />
+                  </div>
+                
+           
+
+                <div class="text-table">
+                  <p>
+                    <strong><span style="font-size: 18px;">
+                      <span style="color: #FF8000;">&nbsp;</span>인사노무 자문, 노사관계, HR 컨설팅 등의<span style="color: #FF8000;"></span>
+                      </span></strong>
+                  </p>
+                  <p>
+                    <strong><span style="font-size: 18px;">
+                      <span style="color: #FF8000;">&nbsp;</span>서비스를 제공하고 있는 국내 최고의 노무법인<span style="color: #FF8000;"></span>
+                      </span></strong>
+                  </p>
+
+                  <br>
+                  <br>
+                  <br>
+                  <p>•現 수도권배립지관리공사 인사위원</p>
+                  <p>•現 서울시농수산식품공사 인사위원</p>
+                  <p>•現 한국의료기기산업협회 자문위원</p>
+                  <p>•現 수협중앙회 직장 내 괴롭힘 심의위원</p>
+                  <p>•前 행정안전부 산하기관 경영평가위원</p>
+                  <p>•논문:비정규직 근로자에 대한 차별처우 금지(2009년)</p>
+                  <p>•저서:대법판결 통상임슴 이슈-우리 기업대응방안(공저)</p>
+                  
+                  
+                </div>
+              </div>
+          </div>
+          <div style="flex:1; background:transparent; margin-top:0; padding-top:0;">
+           <div class="text-table">
+                  <p>
+                    <strong>
+                      <span style="font-size: 18px ;color: #FF8000;font-size: 18px;">노무법인 BR&nbsp;</span>
+                    </span></strong>
+                  </p>
+                   <div class="bis-image-with-caption">
+               <img src="images/LAW/LAW9.jpg" alt="이미지1">
+              <div class="bis-image-with-caption">
+                <p>공인노무사 </p>
+                <p>김규용</p>
+              </div>
+            </div>
+                  <div class="line_box holder" style="width:20%; margin-left: 0;"><!-- HR Line -->
+                    <hr style="border-top-width:2px; border-color:rgba(0, 0, 0, 0.05);" />
+                  </div>
+                  <div class="text-table">
+                    <p>
+                      <strong><span style="font-size: 18px;">
+                        <span style="color: #FF8000;">*&nbsp;</span>대기업 출신 공인노무사로서</span>
+                        </span></strong>
+                      <span style="font-size: 18px;"></span>
+                    </p>
+                  </div>
+                  <div class="line_box holder" style="width:20%; margin-left: 0;"><!-- HR Line -->
+                    <hr style="border-top-width:2px; border-color:rgba(0, 0, 0, 0.05);" />
+                  </div>
+                <div class="text-table">
+                  <p>
+                    <strong><span style="font-size: 18px;">
+                   <span style="color: #FF8000;">*&nbsp;</span>대학에서 법학을 전공하고,</span>
+                      </span></strong>
+                  
+                  </p>
+                </div>
+
+
+                <div class="line_box holder" style="width:20%; margin-left: 0;"><!-- HR Line -->
+                  <hr style="border-top-width:2px; border-color:rgba(0, 0, 0, 0.05);" />
+                </div>
+
+                <div class="text-table">
+                  <p>
+                    <strong><span style="font-size: 18px;">
+                     <span style="color: #FF8000;">*&nbsp;</span>사용자단체 및 대기업의 사내노무사</span>
+                      </span></strong>
+                    
+                  </p>
+                </div>
+                <div class="line_box holder" style="width:40%; margin-left: 0;"><!-- HR Line -->
+                    <hr style="border-top-width:2px; border-color:#FF8000;" />
+                  </div>
+                
+               
+
+                <div class="text-table">
+                  <p>
+                    <strong><span style="font-size: 18px;">
+                      <span style="color: #FF8000;">&nbsp;</span>前 현대자동차 사내 노무사<span style="color: #FF8000;"></span>
+                      
+                      </span></strong>
+                  </p>
+                  <p>
+                      <span style="color: #FF8000;">&nbsp;</span>前 쌍용자동차 사내 노무사<span style="color: #FF8000;"></span>
+                      </span></strong>
+                  </p>
+                  <p>
+                      <span style="color: #FF8000;">&nbsp;</span>前 한국경영자총협회 노동정책본부<span style="color: #FF8000;"></span>
+                      </span></strong>
+                  </p>
+                  <p>
+                      <span style="color: #FF8000;">&nbsp;</span>前 한국전력공사 사내 노무사<span style="color: #FF8000;"></span>
+                      </span></strong>
+                  </p>
+
+                  <br>
+                  <br>
+                  <br>
+                  <p>•경기도 행정심판위원</p>
+                  <p>•한국콘텐츠진흥원 분쟁조정위원</p>
+                  <p>•한국여성변호사회 사업이사</p>
+                  <p>•서초구청 정보공개심의위원</p>
+                  <p>•언론중재위원</p>
+                  <p>•대한변호사협회 특별보좌관</p>
+                  <p>•국토교통부 교통사고 분쟁조정위원회 위원</p>
+                  <p>•국토교통부 채권정리위원회위원</p>
+                  <p>•SBS 공익방송 자문변호사</p>
+                  <p>•과천소방서 소방공무원 고충심사위원회 위원</p>
+                  
+                </div>
+              </div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>
+</div>
+
+
+
+<footer class="mobile-footer">
+
+
+
+<div class="mobile-footer-info">
+
+<!-- 왼쪽 3줄 -->
+  <div style="display:flex; padding-top:0;">
+    <div style="flex:1; background:transparent; margin-top:0; padding-top:0;">
+      <div class="text-table">
+
+        <div class="footer-row">
+
+
+          <p><strong>회사명:</strong>(주)따뜻한 사람들</p>
+          <p><strong>전화번호:</strong> 02-2603-5501</p>
+          <p>Copyright© 따뜻한 사람들 ALL RIGHTS RESERVED</p>
+          <div class="footer-logo">
+            <img src="images/CI_gray.png"  alt="로고">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div style="flex:1; background:transparent;  padding-top:0;">
+    <div class="text-table">
+
+      <div class="footer-col">
+
+      <p>평택시 안중읍 송담5길 10 에이크빌딩 301호</p>
+      <p>광명시 양지로17 티타워동 2122호</p>
+      <p>광주광역시 서구 상무버들로 48</p>
+      <p>울산 북구 명촌8길 31 한일빌딩 2층 202호</p>
+
+      </div>
+
+
+    
+
+
+    </div>
+
+  </div>
+  </div>
+  
+</footer>
+
+
+        
+<div class="mobile-slide-menu" id="mobileSlideMenu">
+  <span class="close-btn" id="mobileCloseBtn">&times;</span>
+
+  <a href="#" class="menu-item">회사소개m</a>
+  <ul class="submenu">
+      <li><a href="#"id="mobilebusinessopen">사업분야m  </a></li>
+      <li><a href="#"id="mobileceoopen">대표님 인사말</a></li>
+  </ul>
+
+  <a href="#" class="menu-item">서비스 소개</a>
+  <ul class="submenu">
+      <li><a href="#">기업고객용</a></li>
+      <li><a href="#">개인고객용</a></li>
+  </ul>
+
+  <a href="#" class="menu-item">전문관리시스템</a>
+  <ul class="submenu">
+      <li><a href="#">법률 및 규정 준수</a></li>
+      <li><a href="#">효율적인 운영관리</a></li>
+  </ul>
+
+  <a href="#" class="menu-item">사회적활동</a>
+  <ul class="submenu">
+      <li><a href="#">사회활동</a></li>
+      <li><a href="#">여성기업인증</a></li>
+  </ul>
+</div>
+
+
+
+
+
+<div class="ceo-mobile-popup " id="ceoPartmobilescreen">
+  <span class="close-btn" id="ceoPartmobilescreenclose">&times;</span>
+<div class="content-wrapper">
+    <!-- 세로글 -->
+    <div class="mobile-vertical-text-CEO">
+      <a href="#">LEADER IN THE COMPANY</a>
+    </div>
+      
+    </a>
+    <a href="#">
+    <div class="text-table "><div>
+      <p style="text-align: left;">
+        <span style="font-size: 8px;">  따뜻한 사람들</span></strong></p><p style="text-align: left;">
+                  <span style="font-size: 8px;color: rgb(255, 128, 0);">  CEO 인사말</span></strong></p>
+                  <p style="text-align: left;"></p>
+                  <img id="image-box" src="images/CEO.png"  alt="" />
+                  <p span style="font-size: 8px; color: rgb(255, 128, 0);"></p>
+                  </span>        
+                </span>
+          <span style="font-size: 8px;">안녕하십니까.</span></p><p style="text-align: left;">
+          <span style="font-size: 8px;"><strong>(주)따뜻한사람들</strong>과 <strong>(주)희망HR</strong> 대표이사를 맡고 있는 <strong>길리나 대표</strong>입니다.</span></p>
+          
+          <p style="text-align: left;"><span style="font-size: 8px;"><br></span></p>
+          <p style="text-align: left;"><span style="font-size: 8px;">우리 회사는 지난 8년간 <strong>노동(勞動)의 가치</strong>를 존중하고 고객의 <strong>노사화합(勞使和合)</strong>에</span></p>
+          <p style="text-align: left;"><span style="font-size: 8px;">도움이 되고자 신뢰를 바탕으로 하여</span><strong>정도경영(正道經營)</strong>에 힘쓰어 왔습니다.</p>
+          
+          <p style="text-align: left;"><span style="font-size: 8px;"><br></span></p>
+          <p style="text-align: left;"><span style="font-size: 8px;">또한 지속적인 <strong>사회봉사(社會奉仕)&nbsp;</strong>참여를 통해 <strong>기업(企業)</strong>의 <strong>지역사회 공헌(地域社會 貢獻)</strong>의</span></p>
+          <p style="text-align: left;"><span style="font-size: 8px;"></span></p>
+          <p style="text-align: left;"><span style="font-size: 8px;">중요성을 몸소 실천하기 위해 노력하였습니다.</span></p>
+          <p style="text-align: left;"><span style="font-size: 8px;"><br></span></p>
+          <p style="text-align: left;"><span style="font-size: 8px;">앞으로도 우리 회사는 지금과 같이<strong><span style="color: rgb(255, 128, 0);"> 근로자 존중(勤勞者 尊重)</span></strong>, 신뢰를 바탕으로 한</span></p>
+          <p style="text-align: left;"><span style="font-size: 8px;"></span></p>
+          <p style="text-align: left;"><span style="font-size: 8px;"><strong><span style="color: rgb(255, 128, 0);">고객중심 경영(顧客中心 經營)</span></strong>, 노동법과 각종 법규 준수를 통한 <strong><span style="color: rgb(255, 128, 0);">정도경영(正道經營)</span></strong></span></p>
+          <p style="text-align: left;"><span style="font-size: 8px;"></span></p>
+          <p style="text-align: left;"><span style="font-size: 8px;">사회봉사를 통한 기업의&nbsp;<strong><span style="color: rgb(255, 128, 0);">지역사회</span></strong><span style="color: rgb(255, 128, 0);"><strong>공헌</strong></span><strong><span style="color: rgb(255, 128, 0);">(地域社會 貢獻)</span></strong>을&nbsp;통해 내외형적으로</span></p>
+          <p style="text-align: left;"><span style="font-size: 8px;"></span></p>
+          <p style="text-align: left;"><span style="font-size: 8px;">더 큰 회사가 되도록 노력하겠습니다.</span></p><p style="text-align: left;"><span style="font-size: 16px;"><br></span></p>
+          <p style="text-align: left;"><span style="font-size: 8px;">감사합니다.</span></p>
+          </div>
+        </div>
+          </a>
+          </a>
+     </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="ceo-mobile-popup " id="businessPartmobilescreen">
+  <span class="close-btn" id="businessPartmobilescreenclose">&times;</span>
+  <div class="content-wrapper">
+    <!-- 세로글 -->
+    <div class="vertical-text-busniess">
+      <a href="#">BUSINESS PART FROM COMPANY mobile</a>
+    </div>
+
+    <div class="message-box">
+      <a href="#">
+      <div class="horizontal-text">
+        
+        <a href="#">
+          <div class="text-table ">
+            <div>
+              <p><strong><span style="font-size: 40px;">전문적이고 효율적인</span></strong></p>
+            </div>
+            <div>
+              <p><strong><span style="font-size: 40px; color: rgb(255, 128, 0);">인재매칭서비스</span></strong></p></span>
+            </div>
+          </div>
+          <div>
+            <p><strong><span style="font-size: 20px;">맞춤형 인재 매칭 서비스로 단체급식 업계의
+            인력난 해소와 경쟁력 강화에 기여합니다.</span></strong></p>
+            <p></p>
+          </div>
+          <br>
+        
+
+         <div class="mobile-bis-grid">
+
+          <div class="mobile-bis-item">
+            <img src="images/bis1.png" alt="이미지1">
+            <p>전문 인력 확보</p>
+            <p>어려움 해소</p>
+          </div>
+
+          <div class="mobile-bis-item">
+            <img src="images/bis2.png" alt="이미지2">
+            <p>채용 절감</p>
+            <p>시간 절감</p>
+          </div>
+
+          <div class="mobile-bis-item">
+            <img src="images/bis3.png" alt="이미지3">
+            <p>법규 준수</p>
+            <p>리스트 관리</p>
+          </div>
+
+          <div class="mobile-bis-item">
+            <img src="images/bis4.png" alt="이미지4">
+            <p>객관적 평가와</p>
+            <p>선발 가능</p>
+          </div>
+
+        </div>
+
+        <div class="mobile-bis-grid">
+
+          <div class="mobile-bis-item">
+
+
+            <div style="flex:1; background:transparent; margin-top:0; padding-top:0;">
+                <div class="text-table">
+                  <p>
+                    <strong><span style="font-size: 18px;">
+                      <span style="color: #FF8000;">*&nbsp;</span>채용대행 mobile</span>
+                    </span></strong>
+                  </p>
+                  <div class="line_box holder" style="width:20%; margin-left: 0;"><!-- HR Line -->
+                    <hr style="border-top-width:2px; border-color:rgba(0, 0, 0, 0.05);" />
+                  </div>
+                  <div class="text-table">
+                    <p>
+                      <strong><span style="font-size: 10px;">
+                        <span style="color: #FF8000;">01&nbsp;</span>근로자<span style="color: #FF8000;">&nbsp;ㅣ&nbsp;</span>
+                        </span></strong>
+                      <span style="font-size: 10px;">최종적으로 의뢰 기업 소속</span>
+                    </p>
+                  </div>
+                  <div class="line_box holder" style="width:20%; margin-left: 0;"><!-- HR Line -->
+                    <hr style="border-top-width:2px; border-color:rgba(0, 0, 0, 0.05);" />
+                </div>
+
+                <div class="text-table">
+                  <p>
+                    <strong><span style="font-size: 10px;">
+                      <span style="color: #FF8000;">01&nbsp;</span>업무<span style="color: #FF8000;">&nbsp;ㅣ&nbsp;</span>
+                      </span></strong>
+                    <span style="font-size: 10px;">채용 프로세스에 대한 국한</span>
+                  </p>
+                </div>
+
+
+                <div class="line_box holder" style="width:20%; margin-left: 0;"><!-- HR Line -->
+                  <hr style="border-top-width:2px; border-color:rgba(0, 0, 0, 0.05);" />
+                </div>
+
+                <div class="text-table">
+                  <p>
+                    <strong><span style="font-size: 10px;">
+                      <span style="color: #FF8000;">01&nbsp;</span>계약<span style="color: #FF8000;">&nbsp;ㅣ&nbsp;</span>
+                      </span></strong>
+                    <span style="font-size: 10px;">단기적, 프로젝트 개방</span>
+                  </p>
+                </div>
+                
+                <div class="line_box holder" style="width:20%; margin-left: 0;"><!-- HR Line -->
+                  <hr style="border-top-width:2px; border-color:rgba(0, 0, 0, 0.05);" />
+                </div>
+
+                <div class="text-table">
+                  <p>
+                    <strong><span style="font-size: 10px;">
+                      <span style="color: #FF8000;">01&nbsp;</span>목적<span style="color: #FF8000;">&nbsp;ㅣ&nbsp;</span>
+                      </span></strong>
+                    <span style="font-size: 10px;">전문적인 인재 확보 지원</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mobile-bis-item">
+
+            <div class="bis-slider-container top-slider">
+              <div class="text-table">
+                <p>
+                  <strong><span style="font-size: 18px;">
+                    <span style="color: #FF8000;">*&nbsp;</span>아웃소싱</span>
+                  </span></strong>
+                </p>
+
+                <div class="line_box holder" style="width:20%; margin-left: 0;"><!-- HR Line -->
+                  <hr style="border-top-width:2px; border-color:rgba(0, 0, 0, 0.05);" />
+                </div>
+
+                <div class="text-table">
+                  <p>
+                    <strong><span style="font-size: 10px;">
+                    <span class="circle-number">01</span> 근로자<span style="color: #FF8000;">&nbsp;ㅣ&nbsp;</span>
+                      </span></strong>
+                    <span style="font-size: 10px;">아웃소싱 업체 소속</span>
+                      
+                  </p>
+                </div>
+
+
+                <div class="line_box holder" style="width:20%; margin-left: 0;">
+                  <hr style="border-top-width:2px; border-color:rgba(0, 0, 0, 0.05);" />
+                </div>
+
+                <div class="text-table">
+                  <p>
+                    <strong><span style="font-size: 10px;">
+                      <span style="color: #FF8000;">01&nbsp;</span>업무<span style="color: #FF8000;">&nbsp;ㅣ&nbsp;</span>
+                      </span></strong>
+                    <span style="font-size: 10px;">지속적인 업무 수행</span>
+                  </p>
+                </div>
+                
+                <div class="line_box holder" style="width:20%; margin-left: 0;">
+                  <hr style="border-top-width:2px; border-color:rgba(0, 0, 0, 0.05);" />
+                </div>
+
+                <div class="text-table">
+                  <p>
+                    <strong><span style="font-size: 10px;">
+                      <span style="color: #FF8000;">01&nbsp;</span>계약<span style="color: #FF8000;">&nbsp;ㅣ&nbsp;</span>
+                      </span></strong>
+                    <span style="font-size: 10px;">장기적, 포괄적 업무 위탁</span>
+                  </p>
+                </div>
+                
+                <div class="line_box holder" style="width:20%; margin-left: 0;">
+                  <hr style="border-top-width:2px; border-color:rgba(0, 0, 0, 0.05);" />
+                </div>
+
+                <div class="text-table">
+                  <p>
+                    <strong><span style="font-size: 10px;">
+                      <span style="color: #FF8000;">01&nbsp;</span>목적<span style="color: #FF8000;">&nbsp;ㅣ&nbsp;</span>
+                      </span></strong>
+                    <span style="font-size: 10px;">전문적인 인재 확보 지원</span>
+                  </p>
+                
+                </div>
+              </div>
+            </div>
+            
+          </div>
+
+        
+
+        </div>
+
+
+           
+           
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+  <!-- 동영상 배경 -->
+  <video class="bg-video" autoplay muted loop playsinline>
+    <!--<source src="https://cdn.pixabay.com/video/2016/08/31/4854-180863259_large.mp4" type="video/mp4">-->
+    <!--<source src="https://cdn.pixabay.com/video/2025/04/29/275722_large.mp4" type="video/mp4">-->
+    <!--<source src="https://videos.pexels.com/video-files/4253333/4253333-uhd_1440_2732_25fps.mp4" type="video/mp4">-->
+    <!--<source src="https://videocdn.cdnpk.net/videos/b880523d-74ea-4c04-985d-fa6356c5e7c8/horizontal/previews/watermarked/large.mp4" type="video/mp4">-->
+    <source src="https://media.istockphoto.com/id/497375361/ko/%EB%B9%84%EB%94%94%EC%98%A4/%EC%8A%88%ED%8D%BC-%EA%B5%AC%EC%8A%AC%EB%88%88%EA%BC%AC%EB%A6%AC-%EB%B0%8F-%EB%94%B8%EC%9D%B4%EB%8B%A4-%EC%8B%A4%ED%96%89-%EC%88%98-%EC%9E%88%EB%8A%94-%EC%9D%BC.mp4?s=mp4-640x640-is&k=20&c=K8vTeedak_NQu7xoDG6zYrvYJmisJV0Om0owM0oKt5M=">
+    <!--<source src="https://media.istockphoto.com/id/1231862488/ko/%EB%B9%84%EB%94%94%EC%98%A4/%ED%8E%B8%EC%95%88%ED%95%A8%EC%9D%84-%EC%A3%BC%EB%8A%94-%EC%BC%80%EC%96%B4%EC%9D%98-%EC%A2%85%EB%A5%98.mp4?s=mp4-640x640-is&k=20&c=_05EIG6joDCVOarpU796Vr3Q-My0y4fzT1gqOkaqRnw=" type="video/mp4">-->
+
+    브라우저가 video 태그를 지원하지 않습니다.
+  </video>
+
+  <!-- 내비게이션 -->
+   <!-- 햄버거 버튼 -->
+
+
+   
+<div class="mobile-menu-btn" id="mobileMenuBtn">
+  <img src="https://github.com/LJ555-c/image-hosting/blob/main/image5_transparent.png?raw=true" alt="메뉴" />
+</div>
+
+
+
+
 <script>
 
 
@@ -4408,7 +5719,22 @@ document.querySelector(".next-button").addEventListener("click", function (e) {
 
 
 
+const submenuLinks = document.querySelectorAll(".submenu li a");
 
+submenuLinks.forEach(link => {
+  link.addEventListener("click", function(e) {
+    e.preventDefault(); // 즉시 이동 막기
+    
+    const url = this.href; // 이동할 URL 저장
+    
+    this.classList.add("rotate"); // 회전 애니메이션 추가
+    
+    // 애니메이션이 끝난 뒤 페이지 이동 (0.6초 = CSS transition 시간)
+    setTimeout(() => {
+      window.location.href = url;
+    }, 600);
+  });
+});
 
 
 
@@ -4471,26 +5797,6 @@ document.addEventListener('DOMContentLoaded', function ()
       modalShown = true;
     }
   });
-
-    const mobileBtn = document.querySelector('.mobile-menu-btn');
-    const mobileMenu = document.getElementById('mobileSlideMenu');
-    const mobileCloseBtn = document.getElementById('mobileCloseBtn');
-
-    // 메뉴 열기
-    mobileBtn.addEventListener('click', function () {
-      mobileMenu.classList.add('open');
-      mobileMenu.classList.remove('closing');
-    });
-
-    // 메뉴 닫기
-    mobileCloseBtn.addEventListener('click', function () {
-      mobileMenu.classList.add('closing');
-      mobileMenu.classList.remove('open');
-      // 닫기 애니메이션 끝나고 display:none 적용
-      setTimeout(() => {
-        mobileMenu.classList.remove('closing');
-      }, 300);
-    });
 
     // 메뉴 외부 클릭 시 닫기
     document.addEventListener('click', function (e) 
@@ -4561,7 +5867,7 @@ const forWomenPartLeftSubMenu = document.getElementById('forWomenPartLeftSubMenu
 
 const customercompanyRightPopup = document.getElementById('customercompanyRightPopup');
 const socialActivity_right_popup= document.getElementById('socialActivity_right_popup');
-
+const forWomen_right_popup = document.getElementById('forWomen_right_popup');
 
 
 
@@ -4592,7 +5898,7 @@ const lawRightPopupSR = document.getElementById('lawRightPopupSR');
 const efficientRightPopupSR = document.getElementById('efficientRightPopupSR');
 
 const socialActivityRightPopupSR = document.getElementById('socialActivityRightPopupSR');
-const forWomenRightPopupSR = document.getElementById('forWomenRightPopupSR');
+
 
 
 
@@ -4617,9 +5923,125 @@ const closecustomercompanypageBtn = document.getElementById('closecustomercompan
 const closeServicesBtn = document.getElementById('closeservicespageBtn');
 
 
+const mobileMenuBtn = document.getElementById('mobileMenuBtn');  // 햄버거 버튼
+const mobileSlideMenu = document.getElementById('mobileSlideMenu');  // 모바일 메뉴
+const mobileCloseBtn = document.getElementById('mobileCloseBtn');    // 메뉴 닫기 버튼 (×)
+const overlay = document.getElementById('overlay');                  // 오버레이
+const mobileMenu = document.getElementById('mobileMenu');                  // 오버레이
 
 
 
+
+
+
+const mobileceoopen = document.getElementById('mobileceoopen');  // 햄버거 버튼
+const ceoPartmobilescreen = document.getElementById('ceoPartmobilescreen');  // ceo mobile
+const ceoPartmobilescreenclose = document.getElementById('ceoPartmobilescreenclose');  // ceo close
+
+
+mobileceoopen.addEventListener('click', () => {
+
+  
+  ceoPartmobilescreen.style.display = 'block';
+  mobileSlideMenu.style.display = 'none';
+  
+});
+
+ceoPartmobilescreen.addEventListener('click', () => {
+
+  
+  ceoPartmobilescreen.style.display = 'none';
+  mobileSlideMenu.style.display = 'block';
+  
+});
+
+
+const mobilebusinessopen = document.getElementById('mobilebusinessopen');  // ceo mobile
+const businessPartmobilescreen = document.getElementById('businessPartmobilescreen');  // ceo mobile
+const businessPartmobilescreenclose = document.getElementById('businessPartmobilescreenclose');  // ceo close
+
+
+mobilebusinessopen.addEventListener('click', () => {
+
+  
+  ceoPartmobilescreen.style.display = 'none';
+  businessPartmobilescreen.style.display = 'block';
+  mobileSlideMenu.style.display = 'none';
+  
+});
+
+ceoPartmobilescreen.addEventListener('click', () => {
+
+  
+  ceoPartmobilescreen.style.display = 'none';
+  mobileSlideMenu.style.display = 'block';
+  
+});
+
+
+
+
+
+
+
+
+
+
+
+const menuTitles = document.querySelectorAll(".mobile-slide-menu .menu-title");
+
+menuTitles.forEach((menu, index) => {
+  menu.addEventListener("click", (e) => {
+    e.preventDefault(); // 페이지 이동 방지
+
+    const submenu = menu.nextElementSibling;
+
+    // 이미 열려있는 경우 → 닫기
+    if (submenu.classList.contains("open")) {
+      submenu.classList.remove("open");
+      return;
+    }
+
+    // 모든 submenu 닫기
+    document.querySelectorAll(".submenu").forEach(ul => ul.classList.remove("open"));
+
+    // 현재 submenu만 열기
+    submenu.classList.add("open");
+  });
+});
+
+
+
+
+mobileMenuBtn.addEventListener('click', () => {
+  const isOpen = mobileSlideMenu.classList.contains('open');
+
+  if (isOpen) {
+    closeMobileMenu(); // 열려 있으면 닫기
+  } else {
+    openMobileMenu();  // 닫혀 있으면 열기
+  }
+});
+
+
+
+
+
+
+// 닫기 버튼 클릭 시 메뉴 닫기
+mobileCloseBtn.addEventListener('click', closeMobileMenu);
+
+
+function openMobileMenu() {
+  mobileSlideMenu.classList.add('open');
+
+  overlay.classList.remove('hidden');
+}
+
+function closeMobileMenu() {
+  mobileSlideMenu.classList.remove('open');
+  overlay.classList.add('hidden');
+}
 
 
 
@@ -4695,6 +6117,99 @@ introCustomersPartRightPopup.addEventListener('click', () => {
   forWomenRightPopupSR.style.display = 'none';
 
 });
+
+
+
+Law_PartRightPopup.addEventListener('click', () => {
+
+  businessLeftPopup.style.display = 'none';
+  customersLeftPopup.style.display = 'none';
+  managersLeftPopup.style.display = 'block';
+  socialLeftPopup.style.display = 'none';
+
+  businessrightPopupSR.style.display = 'none' ;
+  CEORightPopupSR.style.display = 'none'  ;
+  servicesRightPopupSR.style.display = 'none' ;
+
+  customercompanyrightPopupSR.style.display = 'none' ;
+  headinformationPopupSR.style.display = 'none' ;
+
+  lawRightPopupSR.style.display = 'block'; 
+  efficientRightPopupSR.style.display = 'none';
+
+  socialActivityRightPopupSR.style.display = 'none';
+  forWomenRightPopupSR.style.display = 'none';
+
+});
+
+Efficient_PartRightPopup.addEventListener('click', () => {
+
+  businessLeftPopup.style.display = 'none';
+  customersLeftPopup.style.display = 'none';
+  managersLeftPopup.style.display = 'block';
+  socialLeftPopup.style.display = 'none';
+
+  businessrightPopupSR.style.display = 'none' ;
+  CEORightPopupSR.style.display = 'none'  ;
+  servicesRightPopupSR.style.display = 'none' ;
+
+  customercompanyrightPopupSR.style.display = 'none' ;
+  headinformationPopupSR.style.display = 'none' ;
+
+  lawRightPopupSR.style.display = 'none'; 
+  efficientRightPopupSR.style.display = 'block';
+
+  socialActivityRightPopupSR.style.display = 'none';
+  forWomenRightPopupSR.style.display = 'none';
+
+});
+
+socialActivity_right_popup.addEventListener('click', () => {
+
+   businessLeftPopup.style.display = 'none';
+  customersLeftPopup.style.display = 'none';
+  managersLeftPopup.style.display = 'none';
+  socialLeftPopup.style.display = 'block';
+
+  businessrightPopupSR.style.display = 'none' ;
+  CEORightPopupSR.style.display = 'none'  ;
+  servicesRightPopupSR.style.display = 'none' ;
+
+  customercompanyrightPopupSR.style.display = 'none' ;
+  headinformationPopupSR.style.display = 'none' ;
+
+  lawRightPopupSR.style.display = 'none'; 
+  efficientRightPopupSR.style.display = 'none';
+
+  socialActivityRightPopupSR.style.display = 'block';
+  forWomenRightPopupSR.style.display = 'none';
+  
+});
+
+
+forWomen_right_popup.addEventListener('click', () => {
+
+   businessLeftPopup.style.display = 'none';
+  customersLeftPopup.style.display = 'none';
+  managersLeftPopup.style.display = 'none';
+  socialLeftPopup.style.display = 'block';
+
+  businessrightPopupSR.style.display = 'none' ;
+  CEORightPopupSR.style.display = 'none'  ;
+  servicesRightPopupSR.style.display = 'none' ;
+
+  customercompanyrightPopupSR.style.display = 'none' ;
+  headinformationPopupSR.style.display = 'none' ;
+
+  lawRightPopupSR.style.display = 'none'; 
+  efficientRightPopupSR.style.display = 'none';
+
+  socialActivityRightPopupSR.style.display = 'none';
+  forWomenRightPopupSR.style.display = 'block';
+  
+});
+
+
 
 
 
@@ -4845,10 +6360,7 @@ law_and_ManagingLeftPartSubMenu.addEventListener('click', () => {
   managersLeftPopup.style.display = 'block';
   socialLeftPopup.style.display = 'none';
 
-
-
-
-    businessrightPopupSR.style.display = 'none' ; 
+  businessrightPopupSR.style.display = 'none' ; 
   CEORightPopupSR.style.display = 'none'  ;
   servicesRightPopupSR.style.display = 'none' ;
 
@@ -4863,6 +6375,7 @@ law_and_ManagingLeftPartSubMenu.addEventListener('click', () => {
   
   
 });
+
 
 
 
@@ -4932,9 +6445,6 @@ socialActivityLeftPartSubMenu.addEventListener('click', () => {
 });
 
 
-socialActivity_right_popup.addEventListener('click', () => {
-  socialActivityRightPopupSR.style.display = 'none';
-});
 
 
 
@@ -5040,7 +6550,7 @@ CEORightPopup.addEventListener('click', () => {
 
 // 버튼 클릭 → 팝업 열기
 CEORightPopup.addEventListener('click', () => {
-  e.preventDefault();
+
 headinformationPopupSR.style.display = 'none';
   businessrightPopupSR.style.display = 'none';
   CEORightPopupSR.style.display = 'block'  ;
@@ -5050,7 +6560,7 @@ headinformationPopupSR.style.display = 'none';
 });
 
 headinforRightPopup.addEventListener('click', () => {
-  e.preventDefault();
+
 
   CEORightPopupSR.style.display = 'none';
   businessrightPopupSR.style.display = 'none';
@@ -5077,27 +6587,6 @@ closeServicesBtn.addEventListener('click', () => {
 
 
 
-Law_PartRightPopup.addEventListener('click', () => {
-
-  businessLeftPopup.style.display = 'none';
-  customersLeftPopup.style.display = 'none';
-  managersLeftPopup.style.display = 'block';
-  socialLeftPopup.style.display = 'none';
-
-  businessrightPopupSR.style.display = 'none' ;
-  CEORightPopupSR.style.display = 'none'  ;
-  servicesRightPopupSR.style.display = 'none' ;
-
-  customercompanyrightPopupSR.style.display = 'none' ;
-  headinformationPopupSR.style.display = 'none' ;
-
-  lawRightPopupSR.style.display = 'block'; 
-  efficientRightPopupSR.style.display = 'none';
-
-  socialActivityRightPopupSR.style.display = 'none';
-  forWomenRightPopupSR.style.display = 'none';
-
-});
 
 
 
@@ -5320,6 +6809,8 @@ function closeCEOPopup()
 
 
 
+
+
 // 서비스 소개 팝업 열기
 function openCompanyPopup() 
 {
@@ -5387,64 +6878,12 @@ function closeCEOPopup()
   });
 }
 
-// 이벤트 연결
-recruitImage?.addEventListener('click', openRecruitPopup);
-
-recruitSubMenu?.addEventListener('click', (e) => {
-  e.preventDefault();
-  openRecruitPopup();
-});
-recruitMenuMobile?.addEventListener('click', (e) => {
-  e.preventDefault();
-  mobileSlideMenu.classList.remove('open');
-  openRecruitPopup();
-});
-closeRecruitBtn.addEventListener('click', closeRecruitPopup);
 
 
 
-recruitSubMenu?.addEventListener('click', (e) => {
-  e.preventDefault();
-  openRecruitPopup();
-});
-recruitMenuMobile?.addEventListener('click', (e) => {
-  e.preventDefault();
-  mobileSlideMenu.classList.remove('open');
-  openRecruitPopup();
-});
-closeRecruitBtn.addEventListener('click', closeRecruitPopup);
-
-function openRecruitPopup() 
-{
-  recruitPopup.classList.remove('hide');
-  recruitPopup.style.display = 'block';
-  recruitPopup.classList.toggle('show');
-}
-
-// 팝업 닫기
-function closeRecruitPopup() 
-{
-  recruitPopup.classList.remove('show');
-  recruitPopup.classList.add('hide');
-
-  // 애니메이션 끝난 후 display:none 처리
-  recruitPopup.addEventListener('animationend', function handleAnimationEnd() 
-  {
-    recruitPopup.style.display = 'none';
-    recruitPopup.removeEventListener('animationend', handleAnimationEnd);
-  });
-}
+// 닫기 버튼 클릭 시 메뉴 닫기
 
 
-
-
-
-function openCompanyPopup() 
-{
-  companyPopup.classList.remove('hide');
-  companyPopup.style.display = 'block';
-  companyPopup.classList.toggle('show');
-}
 
 // 팝업 닫기
 function closeCompanyPopup() 
@@ -5476,36 +6915,6 @@ function closeBusinessMenu() {
 
 
 
-const mobileMenuBtn = document.getElementById('mobileMenuBtn');  // 햄버거 버튼
-const mobileSlideMenu = document.getElementById('mobileSlideMenu');  // 모바일 메뉴
-const mobileCloseBtn = document.getElementById('mobileCloseBtn');    // 메뉴 닫기 버튼 (×)
-const overlay = document.getElementById('overlay');                  // 오버레이
-
-
-
-
-// 메뉴 열기 함수
-function openMobileMenu() {
-  
-  mobileSlideMenu.classList.add('open');
-  overlay.classList.remove('hidden');
-}
-
-// 메뉴 닫기 함수
-function closeMobileMenu() {
-  mobileSlideMenu.classList.remove('open');
-  overlay.classList.add('hidden');
-}
-
-mobileMenuBtn.addEventListener('click', () => {
-  const isOpen = mobileSlideMenu.classList.contains('open');
-
-  if (isOpen) {
-    closeMobileMenu(); // 열려 있으면 닫기
-  } else {
-    openMobileMenu();  // 닫혀 있으면 열기
-  }
-});
 
 
 
@@ -5515,6 +6924,21 @@ mobileCloseBtn.addEventListener('click', closeMobileMenu);
 // 오버레이 클릭 시 메뉴 닫기
 overlay.addEventListener('click', closeMobileMenu);
 
+
+
+
+// 메뉴 열기 함수
+function openMobileMenu() {
+  
+  mobileSlideMenu.classList.add('open');
+  
+}
+
+// 메뉴 닫기 함수
+function closeMobileMenu() {
+  mobileSlideMenu.classList.remove('open');
+  
+}
 
 
 const menuItems = document.querySelectorAll(".main-menu .has-submenu > a");
